@@ -1,0 +1,7 @@
+<?xml version="1.0" ?><Session>
+<NegotiationOutcome currentTime="Sat Feb 11 17:52:32 CET 2023" timeOfAgreement="3.5401666666666666E-4" lastAction="(Accept  bid:Bid[Location: Barcelona, Duration: 2 weeks, Hotel Quality: Hostel])" domain="etc/templates/MASHoliday/MASHoliday.xml" bids="13" runtime="0.0203858" finalOutcome="Bid[Location: Barcelona, Duration: 2 weeks, Hotel Quality: Hostel]" startingAgent="ABMPAgent2@8" deadline="60s">
+<resultsOfAgent agent="ABMPAgent2@8" agentDesc="Agent ABMPAgent2" utilspace="etc/templates/MASHoliday/MASHoliday_util1.xml" agentClass="agents.ABMPAgent2" userUtility="1.0" finalUtility="1.0" discountedUtility="1.0" discount="1.0" totalUserBother="0.0">
+</resultsOfAgent>
+<resultsOfAgent agent="BayesianAgent@9" agentDesc="bayesian opponent model to guide offers" utilspace="etc/templates/MASHoliday/MASHoliday_util2.xml" agentClass="agents.BayesianAgent" userUtility="0.5331290074670093" finalUtility="0.5331290074670093" discountedUtility="0.5331290074670093" discount="1.0" totalUserBother="0.0">
+</resultsOfAgent>
+</NegotiationOutcome></Session>

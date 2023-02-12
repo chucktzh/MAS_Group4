@@ -1,0 +1,7 @@
+<?xml version="1.0" ?><Tournament>
+<NegotiationOutcome currentTime="Sat Feb 11 15:46:50 CET 2023" timeOfAgreement="0.11475409836065574" lastAction="(Accept  bid:Bid[Venue: Shopping, Time of arrival: Afternoon, Day of the week: Sunday, Duration: One night, Transportation: Car, Souvenirs: None])" domain="etc/templates/anac/y2011/Amsterdam/Amsterdam_domain.xml" bids="13" runtime="0.0040423" finalOutcome="Bid[Venue: Shopping, Time of arrival: Afternoon, Day of the week: Sunday, Duration: One night, Transportation: Car, Souvenirs: None]" startingAgent="ConcederNegotiationParty@10" deadline="60rounds">
+<resultsOfAgent agent="ConcederNegotiationParty@10" agentDesc="Time-based conceder" utilspace="etc/templates/anac/y2011/Amsterdam/Amsterdam_party1.xml" agentClass="negotiator.parties.ConcederNegotiationParty" userUtility="0.6866666666666666" finalUtility="0.6866666666666666" discountedUtility="0.6866666666666666" discount="1.0" totalUserBother="0.0">
+</resultsOfAgent>
+<resultsOfAgent agent="ConcederNegotiationParty@11" agentDesc="Time-based conceder" utilspace="etc/templates/anac/y2011/Amsterdam/Amsterdam_party2.xml" agentClass="negotiator.parties.ConcederNegotiationParty" userUtility="0.8008333333333333" finalUtility="0.8008333333333333" discountedUtility="0.8008333333333333" discount="1.0" totalUserBother="0.0">
+</resultsOfAgent>
+</NegotiationOutcome></Tournament>

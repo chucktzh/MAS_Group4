@@ -1,0 +1,7 @@
+<?xml version="1.0" ?><Session>
+<NegotiationOutcome currentTime="Sat Feb 11 15:32:26 CET 2023" timeOfAgreement="0.03278688524590164" lastAction="(Accept  bid:Bid[Laptop: HP, Harddisk: 80 Gb, External Monitor: 19'' LCD])" domain="etc/templates/anac/y2011/Laptop/laptop_domain.xml" bids="3" runtime="29.4231861" finalOutcome="Bid[Laptop: HP, Harddisk: 80 Gb, External Monitor: 19'' LCD]" startingAgent="UIAgent@4" deadline="60rounds">
+<resultsOfAgent agent="UIAgent@4" agentDesc="Simple human user interface to place bids" utilspace="etc/templates/anac/y2011/Laptop/laptop_seller_utility_u10.xml" agentClass="agents.UIAgent" userUtility="0.8496195921556849" finalUtility="0.873832627329898" discountedUtility="0.8496195921556849" discount="0.42441038" totalUserBother="0.0">
+</resultsOfAgent>
+<resultsOfAgent agent="ConcederNegotiationParty@5" agentDesc="Time-based conceder" utilspace="etc/templates/anac/y2011/Laptop/laptop_buyer_utility_u10.xml" agentClass="negotiator.parties.ConcederNegotiationParty" userUtility="0.8496665836544439" finalUtility="0.8738809580242486" discountedUtility="0.8496665836544439" discount="0.42441038" totalUserBother="0.0">
+</resultsOfAgent>
+</NegotiationOutcome></Session>

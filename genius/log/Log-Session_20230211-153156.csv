@@ -1,0 +1,5 @@
+1,1,0.01639344262295082,UIAgent@4,(Offer  bid:Bid[Laptop: HP, Harddisk: 80 Gb, External Monitor: 19'' LCD])
+1,2,0.01639344262295082,ConcederNegotiationParty@5,(Offer  bid:Bid[Laptop: HP, Harddisk: 80 Gb, External Monitor: 19'' LCD])
+2,1,0.03278688524590164,UIAgent@4,(Offer  bid:Bid[Laptop: HP, Harddisk: 80 Gb, External Monitor: 19'' LCD])
+2,2,0.03278688524590164,ConcederNegotiationParty@5,(Accept  bid:Bid[Laptop: HP, Harddisk: 80 Gb, External Monitor: 19'' LCD])
+agreement,Bid[Laptop: HP, Harddisk: 80 Gb, External Monitor: 19'' LCD],0.873832627329898,0.8738809580242486

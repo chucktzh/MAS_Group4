@@ -1,0 +1,4 @@
+1,1,0.0055248618784530384,SimpleAgent@12,(Offer  bid:Bid[Location: Milan, Duration: 2 weeks, Hotel Quality: Hostel])
+1,2,0.0055248618784530384,SimpleAgent@13,(Offer  bid:Bid[Location: Barcelona, Duration: 2 weeks, Hotel Quality: 3 star hotel])
+2,1,0.011049723756906077,SimpleAgent@12,(Accept  bid:Bid[Location: Barcelona, Duration: 2 weeks, Hotel Quality: 3 star hotel])
+agreement,Bid[Location: Barcelona, Duration: 2 weeks, Hotel Quality: 3 star hotel],0.7546723347125741,0.5257268347891371

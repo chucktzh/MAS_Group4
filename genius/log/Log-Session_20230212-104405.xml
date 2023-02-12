@@ -1,0 +1,7 @@
+<?xml version="1.0" ?><Session>
+<NegotiationOutcome currentTime="Sun Feb 12 10:44:05 CET 2023" timeOfAgreement="0.1270718232044199" lastAction="(Accept  bid:Bid[Location: Barcelona, Duration: 2 weeks, Hotel Quality: Hostel])" domain="etc/templates/MASHoliday/MASHoliday.xml" bids="44" runtime="0.0782019" finalOutcome="Bid[Location: Barcelona, Duration: 2 weeks, Hotel Quality: Hostel]" startingAgent="ConcederNegotiationParty@0" deadline="180rounds">
+<resultsOfAgent agent="ConcederNegotiationParty@0" agentDesc="Time-based conceder" utilspace="etc/templates/MASHoliday/MASHoliday_util1.xml" agentClass="negotiator.parties.ConcederNegotiationParty" userUtility="1.0" finalUtility="1.0" discountedUtility="1.0" discount="1.0" totalUserBother="0.0">
+</resultsOfAgent>
+<resultsOfAgent agent="Agent33@1" agentDesc="ANAC2018" utilspace="etc/templates/MASHoliday/MASHoliday_util2.xml" agentClass="agents.anac.y2018.agent33.Agent33" userUtility="0.5331290074670093" finalUtility="0.5331290074670093" discountedUtility="0.5331290074670093" discount="1.0" totalUserBother="0.0">
+</resultsOfAgent>
+</NegotiationOutcome></Session>

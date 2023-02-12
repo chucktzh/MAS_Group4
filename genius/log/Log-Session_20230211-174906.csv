@@ -1,0 +1,7 @@
+1,1,0.0055248618784530384,SimpleAgent@6,(Offer  bid:Bid[Location: Antalya, Duration: 1 week, Hotel Quality: 5 star hotel])
+1,2,0.0055248618784530384,AgentX@7,(Offer  bid:Bid[Location: Milan, Duration: 2 weeks, Hotel Quality: 5 star hotel])
+2,1,0.011049723756906077,SimpleAgent@6,(Offer  bid:Bid[Location: Barcelona, Duration: 2 weeks, Hotel Quality: 5 star hotel])
+2,2,0.011049723756906077,AgentX@7,(Offer  bid:Bid[Location: Milan, Duration: 2 weeks, Hotel Quality: 5 star hotel])
+3,1,0.016574585635359115,SimpleAgent@6,(Offer  bid:Bid[Location: Milan, Duration: 2 weeks, Hotel Quality: 5 star hotel])
+3,2,0.016574585635359115,AgentX@7,(Accept  bid:Bid[Location: Milan, Duration: 2 weeks, Hotel Quality: 5 star hotel])
+agreement,Bid[Location: Milan, Duration: 2 weeks, Hotel Quality: 5 star hotel],0.38856312221864486,1.0

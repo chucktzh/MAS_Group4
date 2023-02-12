@@ -1,0 +1,7 @@
+<?xml version="1.0" ?><Session>
+<NegotiationOutcome exception="Failed to execute protocol: Negotiating party UIAgent@7 timed out in chooseAction() method.: agent UIAgent@7 passed deadline and was killed" currentTime="Sat Feb 11 15:38:09 CET 2023" lastAction="(Offer  bid:Bid[Laptop: HP, Harddisk: 60 Gb, External Monitor: 20'' LCD])" bids="1" runtime="60.0151189" deadline="60rounds">
+<resultsOfAgent agent="SimpleAgent" utilspace="etc/templates/anac/y2011/Laptop/laptop_buyer_utility.xml" agentClass="agents.SimpleAgent" finalUtility="0.0" discountedUtility="0.0" discount="0.42441038">
+</resultsOfAgent>
+<resultsOfAgent agent="UIAgent" utilspace="etc/templates/anac/y2011/Laptop/laptop_seller_utility.xml" agentClass="agents.UIAgent" finalUtility="0.0" discountedUtility="0.0" discount="0.42441038">
+</resultsOfAgent>
+</NegotiationOutcome></Session>
