@@ -45,6 +45,7 @@ public class Group4_AS extends AcceptanceStrategy {
 		this.negotiationSession = negoSession;
 		this.offeringStrategy = strat;
 
+
 		if (parameters.get("a") != null || parameters.get("b") != null) {
 			a = parameters.get("a");
 			b = parameters.get("b");
@@ -68,6 +69,7 @@ public class Group4_AS extends AcceptanceStrategy {
 				.getLastBidDetails().getMyUndiscountedUtil();
 
 		if (a * lastOpponentBidUtil + b >= nextMyBidUtil) {
+//			System.out.println(a);
 			return Actions.Accept;
 		}
 		return Actions.Reject;

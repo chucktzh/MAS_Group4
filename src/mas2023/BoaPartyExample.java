@@ -35,8 +35,7 @@ import genius.core.utility.AbstractUtilitySpace;
  * of Negotiation Strategies. Proceedings of The Fifth International Workshop on
  * Agent-based Complex Automated Negotiations (ACAN 2012), 2012.
  * https://homepages.cwi.nl/~baarslag/pub/Decoupling_Negotiating_Agents_to_Explore_the_Space_of_Negotiation_Strategies_ACAN_2012.pdf
- * 
- * @author Tim Baarslag
+ *
  */
 @SuppressWarnings("serial")
 public class BoaPartyExample extends BoaParty 
