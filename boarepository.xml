@@ -50,9 +50,11 @@
 		<acceptancecondition description="Other - CombiMaxInWindow" classpath="negotiator.boaframework.acceptanceconditions.other.AC_CombiMaxInWindow"/>
 		<acceptancecondition description="2011 - ValueModelAgent" classpath="negotiator.boaframework.acceptanceconditions.anac2011.AC_ValueModelAgent"/>
 		<acceptancecondition description="Other - Next" classpath="negotiator.boaframework.acceptanceconditions.other.AC_Next"/>
+		<acceptancecondition description="Group4_AS_Normal.class" classpath="C:\Users\zyx\IdeaProjects\MAS3.1BOATest\out\production\MAS3.1BOATest\mas2023\group4\Group4_AS_Normal.class"/>
 		<acceptancecondition description="Other - Constant" classpath="negotiator.boaframework.acceptanceconditions.other.AC_Const"/>
 		<acceptancecondition description="2013 - InoxAgent" classpath="negotiator.boaframework.acceptanceconditions.anac2013.AC_InoxAgent"/>
 		<acceptancecondition description="2010 - Nozomi" classpath="negotiator.boaframework.acceptanceconditions.anac2010.AC_Nozomi"/>
+		<acceptancecondition description="Group4_AS_Uncertainty.class" classpath="C:\Users\zyx\IdeaProjects\MAS3.1BOATest\out\production\MAS3.1BOATest\mas2023\group4\Group4_AS_Uncertainty.class"/>
 		<acceptancecondition description="2011 - Gahboninho" classpath="negotiator.boaframework.acceptanceconditions.anac2011.AC_Gahboninho"/>
 		<acceptancecondition description="Other - False" classpath="negotiator.boaframework.acceptanceconditions.other.AC_False"/>
 		<acceptancecondition description="2010 - Agent FSEGA" classpath="negotiator.boaframework.acceptanceconditions.anac2010.AC_AgentFSEGA"/>
@@ -65,7 +67,6 @@
 		<acceptancecondition description="2012 - AgentMR" classpath="negotiator.boaframework.acceptanceconditions.anac2012.AC_AgentMR"/>
 		<acceptancecondition description="Other - CombiV2" classpath="negotiator.boaframework.acceptanceconditions.other.AC_CombiV2"/>
 		<acceptancecondition description="2012 - CUHKAgent" classpath="negotiator.boaframework.acceptanceconditions.anac2012.AC_CUHKAgent"/>
-		<acceptancecondition description="Group4_AS.class" classpath="C:\Users\zyx\IdeaProjects\MAS3.1BOATest\out\production\MAS3.1BOATest\mas2023\group4\Group4_AS.class"/>
 		<acceptancecondition description="2013 - InoxAgent_OneIssue" classpath="negotiator.boaframework.acceptanceconditions.anac2013.AC_InoxAgent_OneIssue"/>
 		<acceptancecondition description="Other - Gap" classpath="negotiator.boaframework.acceptanceconditions.other.AC_Gap"/>
 		<acceptancecondition description="Other - Time" classpath="negotiator.boaframework.acceptanceconditions.other.AC_Time"/>

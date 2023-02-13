@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <boaPartiesList>
-    <boaparties partyName="Group4_Party">
+    <boaparties partyName="newParty">
         <properties/>
         <biddingStrategy>
-            <parameters name="k" value="0.0"/>
             <parameters name="min" value="0.0"/>
+            <parameters name="k" value="0.0"/>
             <parameters name="e" value="1.0"/>
             <parameters name="max" value="0.99"/>
             <item classpath="C:\Users\zyx\IdeaProjects\MAS3.1BOATest\out\production\MAS3.1BOATest\mas2023\group4\Group4_BS.class"/>
         </biddingStrategy>
         <acceptanceStrategy>
-            <parameters name="b" value="0.5"/>
-            <parameters name="a" value="1.0"/>
-            <item classpath="C:\Users\zyx\IdeaProjects\MAS3.1BOATest\out\production\MAS3.1BOATest\mas2023\group4\Group4_AS.class"/>
+            <item classpath="C:\Users\zyx\IdeaProjects\MAS3.1BOATest\out\production\MAS3.1BOATest\mas2023\group4\Group4_AS_Uncertainty.class"/>
         </acceptanceStrategy>
         <opponentModel>
             <parameters name="l" value="0.2"/>

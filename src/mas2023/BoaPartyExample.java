@@ -6,10 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import mas2023.group4.Group4_AS;
-import mas2023.group4.Group4_OMS;
-import mas2023.group4.Group4_OM;
-import mas2023.group4.Group4_BS;
+import mas2023.group4.*;
 import genius.core.boaframework.AcceptanceStrategy;
 import genius.core.boaframework.BoaParty;
 import genius.core.boaframework.OMStrategy;
@@ -44,7 +41,7 @@ public class BoaPartyExample extends BoaParty
 	public void init(NegotiationInfo info) 
 	{
 		// The choice for each component is made here
-		AcceptanceStrategy 	ac  = new Group4_AS();
+		AcceptanceStrategy 	ac  = new Group4_AS_Uncertainty();
 		OfferingStrategy 	os  = new Group4_BS();
 		OpponentModel 		om  = new Group4_OM();
 		OMStrategy			oms = new Group4_OMS();
