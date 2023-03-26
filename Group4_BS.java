@@ -65,13 +65,6 @@ public class Group4_BS extends OfferingStrategy {
 			else
 				this.k = 0.2;
 
-			/**
-			 * 			if (parameters.get("a") != null)
-			 * 				this.a = parameters.get("a");
-			 * 			else
-			 * 				this.a = 0.3;
-			 */
-
 			if (parameters.get("min") != null)
 				this.Pmin = parameters.get("min");
 			else
