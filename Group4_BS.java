@@ -39,8 +39,6 @@ public class Group4_BS extends OfferingStrategy {
 	/** Outcome space */
 	private SortedOutcomeSpace outcomespace;
 
-
-
 	/**
 	 * Method which initializes the agent by setting all parameters. The
 	 * parameter "e" and "a" required.
@@ -64,13 +62,6 @@ public class Group4_BS extends OfferingStrategy {
 				this.k = parameters.get("k");
 			else
 				this.k = 0.2;
-
-			/**
-			 * 			if (parameters.get("a") != null)
-			 * 				this.a = parameters.get("a");
-			 * 			else
-			 * 				this.a = 0.3;
-			 */
 
 			if (parameters.get("min") != null)
 				this.Pmin = parameters.get("min");
@@ -124,6 +115,7 @@ public class Group4_BS extends OfferingStrategy {
 			//if(opponentModel.isGreedy())
 			nextBid = omStrategy.getBid(outcomespace, utilityGoal);
 			//else if
+			//
 		}
 		return nextBid;
 	}
