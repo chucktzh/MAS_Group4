@@ -4,20 +4,26 @@
         <properties/>
         <biddingStrategy>
             <parameters name="min" value="0.0"/>
+            <parameters name="max" value="0.99"/>
+            <parameters name="a" value="0.0"/>
             <parameters name="k" value="0.0"/>
             <parameters name="e" value="1.0"/>
-            <parameters name="max" value="0.99"/>
             <item classpath="C:\Users\zyx\IdeaProjects\MAS3.1BOATest\out\production\MAS3.1BOATest\mas2023\group4\Group4_BS.class"/>
         </biddingStrategy>
         <acceptanceStrategy>
-            <item classpath="C:\Users\zyx\IdeaProjects\MAS3.1BOATest\out\production\MAS3.1BOATest\mas2023\group4\Group4_AS_Uncertainty.class"/>
+            <parameters name="T" value="1.0"/>
+            <parameters name="b" value="0.0"/>
+            <parameters name="a" value="1.0"/>
+            <item classpath="C:\Users\zyx\IdeaProjects\MAS3.1BOATest\out\production\MAS3.1BOATest\mas2023\group4\Group4_AS_Normal.class"/>
         </acceptanceStrategy>
         <opponentModel>
             <parameters name="l" value="0.2"/>
             <item classpath="C:\Users\zyx\IdeaProjects\MAS3.1BOATest\out\production\MAS3.1BOATest\mas2023\group4\Group4_OM.class"/>
         </opponentModel>
         <omStrategy>
+            <parameters name="r" value="0.1"/>
             <parameters name="t" value="1.1"/>
+            <parameters name="w" value="0.5"/>
             <item classpath="C:\Users\zyx\IdeaProjects\MAS3.1BOATest\out\production\MAS3.1BOATest\mas2023\group4\Group4_OMS.class"/>
         </omStrategy>
     </boaparties>
