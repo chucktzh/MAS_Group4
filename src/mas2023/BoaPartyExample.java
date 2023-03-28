@@ -41,7 +41,7 @@ public class BoaPartyExample extends BoaParty
 	public void init(NegotiationInfo info) 
 	{
 		// The choice for each component is made here
-		AcceptanceStrategy 	ac  = new Group4_AS_Normal();
+		AcceptanceStrategy 	ac  = new Group4_AS();
 		OfferingStrategy 	os  = new Group4_BS();
 		OpponentModel 		om  = new Group4_OM();
 		OMStrategy			oms = new Group4_OMS();

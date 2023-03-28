@@ -19,7 +19,7 @@ import genius.core.boaframework.OpponentModel;
  * T. Baarslag, K. Hindriks, M. Hendrikx, A. Dirkzwager, C.M. Jonker
  *
  */
-public class Group4_AS_Normal extends AcceptanceStrategy {
+public class Group4_AS extends AcceptanceStrategy {
 	/**
 	 * parameters used when compare opponent's offer and mine
 	 */
@@ -38,11 +38,11 @@ public class Group4_AS_Normal extends AcceptanceStrategy {
 	/**
 	 * Empty constructor for the BOA framework.
 	 */
-	public Group4_AS_Normal() {
+	public Group4_AS() {
 	}
 
-	public Group4_AS_Normal(NegotiationSession negoSession, OfferingStrategy strat,
-							double alpha, double beta) {
+	public Group4_AS(NegotiationSession negoSession, OfferingStrategy strat,
+					 double alpha, double beta) {
 		this.negotiationSession = negoSession;
 		this.offeringStrategy = strat;
 		this.a = alpha;
@@ -142,6 +142,6 @@ public class Group4_AS_Normal extends AcceptanceStrategy {
 
 	@Override
 	public String getName() {
-		return "Group4_AS_Normal";
+		return "Group4_AS";
 	}
 }
