@@ -19,7 +19,7 @@ import genius.core.boaframework.OpponentModel;
  * T. Baarslag, K. Hindriks, M. Hendrikx, A. Dirkzwager, C.M. Jonker
  *
  */
-public class Group4_AS_Normal extends AcceptanceStrategy {
+public class Group4_AS extends AcceptanceStrategy {
 	/**
 	 * parameters used when compare opponent's offer and mine
 	 */
@@ -35,18 +35,24 @@ public class Group4_AS_Normal extends AcceptanceStrategy {
 	 */
 	double T = 1.0; // Never surrender by default
 
+	double Pmax;
+	double Pmin;
+	double k = 0.2;
+	double e;
+	double alpha;
+
 	/**
 	 * Empty constructor for the BOA framework.
 	 */
-	public Group4_AS_Normal() {
+	public Group4_AS() {
 	}
 
-	public Group4_AS_Normal(NegotiationSession negoSession, OfferingStrategy strat,
-							double alpha, double beta) {
+	public Group4_AS(NegotiationSession negoSession, OfferingStrategy strat,
+							double a, double b) {
 		this.negotiationSession = negoSession;
 		this.offeringStrategy = strat;
-		this.a = alpha;
-		this.b = beta;
+		this.a = a;
+		this.b = b;
 		this.t_WaitAndSee = 0;
 	}
 
@@ -56,6 +62,17 @@ public class Group4_AS_Normal extends AcceptanceStrategy {
 			throws Exception {
 		this.negotiationSession = negoSession;
 		this.offeringStrategy = strat;
+		this.Pmin = negoSession.getMinBidinDomain().getMyUndiscountedUtil();
+		this.Pmax = negoSession.getMaxBidinDomain().getMyUndiscountedUtil();
+
+		if (parameters.get("e") != null)
+			this.e = parameters.get("e");
+		else
+			this.e = 0.2;
+		if (parameters.get("alpha") != null)
+			this.alpha = parameters.get("alpha");
+		else
+			this.alpha = 0.3;
 
 		if (parameters.get("T") != null){
 			T = parameters.get("T");
@@ -89,13 +106,10 @@ public class Group4_AS_Normal extends AcceptanceStrategy {
 		// Calculate the minimal acceptable utility i.e. the target utility for now
 		double time = negotiationSession.getTime();
 		double myUtilThreshold = 0.8;
-		if (offeringStrategy instanceof Group4_BS){
-			Group4_BS BS = (Group4_BS) offeringStrategy;
-			myUtilThreshold = BS.p(time);
-		}else {
-			throw new ClassCastException("The offeringStrategy class passed to AS " +
-					"can't be downcast to \"Group4_BS\".");
-		}
+//		Group4_BS BS = (Group4_BS) offeringStrategy;
+//		myUtilThreshold = BS.p(time);
+		myUtilThreshold = p(time);
+
 
 		int numberOfRounds = negotiationSession.getOpponentBidHistory().size();
 
@@ -123,20 +137,40 @@ public class Group4_AS_Normal extends AcceptanceStrategy {
 			// Reject the offer otherwise
 			return Actions.Reject;
 		}
-
+	}
+	public double f(double t) {
+		double t_a = 0.0;
+		double ft = k;
+		if(ft == 1- alpha){
+			t_a = t;
+		}
+		// 1-ft >= a, keep exponential f(t) unchanged
+		if (ft < 1- alpha){
+			ft = k + (1 - k) * Math.pow(t, 1.0 / e);
+			return ft;
+		}else{
+			ft = alpha /(1-t_a) * t - alpha /(1-t_a) + 1;
+			return ft;
+		}
 	}
 
-
+	public double p(double t) {
+		return Pmin + (Pmax - Pmin) * (1 - f(t));
+	}
 	@Override
 	public Set<BOAparameter> getParameterSpec() {
 
 		Set<BOAparameter> set = new HashSet<BOAparameter>();
-		set.add(new BOAparameter("a", 1.0,
-				"Accept when the opponent's utility * a + b is greater than the utility of our current bid"));
-		set.add(new BOAparameter("b", 0.0,
-				"Accept when the opponent's utility * a + b is greater than the utility of our current bid"));
+//		set.add(new BOAparameter("a", 1.0,
+//				"Accept when the opponent's utility * a + b is greater than the utility of our current bid"));
+//		set.add(new BOAparameter("b", 0.0,
+//				"Accept when the opponent's utility * a + b is greater than the utility of our current bid"));
 		set.add(new BOAparameter("T", 1.0,
 				"Accept when time > T."));
+		set.add(new BOAparameter("alpha", 0.3,
+				" "));
+		set.add(new BOAparameter("e", 0.2,
+				" "));
 		return set;
 	}
 

@@ -4,14 +4,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import genius.core.boaframework.*;
 import genius.core.bidding.BidDetails;
-import genius.core.boaframework.BOAparameter;
-import genius.core.boaframework.NegotiationSession;
-import genius.core.boaframework.NoModel;
-import genius.core.boaframework.OMStrategy;
-import genius.core.boaframework.OfferingStrategy;
-import genius.core.boaframework.OpponentModel;
-import genius.core.boaframework.SortedOutcomeSpace;
 
 /**
  * This is an abstract class used to implement a TimeDependentAgent Strategy
@@ -22,7 +16,6 @@ import genius.core.boaframework.SortedOutcomeSpace;
  * The default strategy was extended to enable the usage of opponent models.
  */
 public class Group4_BS extends OfferingStrategy {
-
 	/**
 	 * k in [0, 1]. For k = 0.2 the agent starts with a bid
 	 * with the utility of U_min + 0.8 * (U_max - U_min)
@@ -35,7 +28,7 @@ public class Group4_BS extends OfferingStrategy {
 	/** Concession factor */
 	private double e;
 	/** The specified ratio factor to start the next stage of f(t) */
-	private double a;
+	private double alpha;
 	/** Outcome space */
 	private SortedOutcomeSpace outcomespace;
 
@@ -47,7 +40,7 @@ public class Group4_BS extends OfferingStrategy {
 	public void init(NegotiationSession negoSession, OpponentModel model, OMStrategy oms,
 			Map<String, Double> parameters) throws Exception {
 		super.init(negoSession, parameters);
-		if ((parameters.get("e") != null) && (parameters.get("a") != null)) {
+		if ((parameters.get("e") != null) && (parameters.get("alpha") != null)) {
 			//初始化谈判session，获得outcome space和自己的utility space等信息
 			this.negotiationSession = negoSession;
 			//根据utility把outcome space里的出价排序
@@ -56,31 +49,20 @@ public class Group4_BS extends OfferingStrategy {
 			negotiationSession.setOutcomeSpace(outcomespace);
 
 			this.e = parameters.get("e");
-			this.a = parameters.get("a");
+			this.alpha = parameters.get("alpha");
 
 			if (parameters.get("k") != null)
 				this.k = parameters.get("k");
 			else
 				this.k = 0.2;
 
-			if (parameters.get("min") != null)
-				this.Pmin = parameters.get("min");
-			else
-				this.Pmin = negoSession.getMinBidinDomain().getMyUndiscountedUtil();
-
-			if (parameters.get("max") != null) {
-				Pmax = parameters.get("max");
-			} else {
-				BidDetails maxBid = negoSession.getMaxBidinDomain();
-				Pmax = maxBid.getMyUndiscountedUtil();
-			}
-
+			this.Pmin = negoSession.getMinBidinDomain().getMyUndiscountedUtil();
+			this.Pmax = negoSession.getMaxBidinDomain().getMyUndiscountedUtil();
 			this.opponentModel = model;
-			
 			this.omStrategy = oms;
 		} else {
 			throw new Exception("Constant \"e\" for the concession speed and " +
-					"constant \"a\" for the turning point of f(t) should be set.");
+					"constant \"alpha\" for the turning point of f(t) should be set.");
 		}
 	}
 	//need changes
@@ -88,7 +70,6 @@ public class Group4_BS extends OfferingStrategy {
 	public BidDetails determineOpeningBid() {
 		return determineNextBid();
 	}
-
 	/**
 	 * Simple offering strategy which retrieves the target utility and looks for
 	 * the nearest bid if no opponent model is specified. If an opponent model
@@ -121,8 +102,7 @@ public class Group4_BS extends OfferingStrategy {
 	}
 
 	/**
-	 * From [1]:
-	 * 
+	 *
 	 * A wide range of time dependent functions can be defined by varying the
 	 * way in which f(t) is computed. However, functions must ensure that 0 <=
 	 * f(t) <= 1, f(0) = k, and f(1) = 1.
@@ -134,20 +114,24 @@ public class Group4_BS extends OfferingStrategy {
 	 * For e = 0 (special case), it will behave as a Hardliner.
 	 */
 	public double f(double t) {
-		if (e == 0)
-			return k;
 		double t_a = 0.0;
-		double ft = k + (1 - k) * Math.pow(t, 1.0 / e);
-		// 1-ft >= a, keep exponential f(t) unchanged
-		if (ft <= 1-a)
-			return ft;
-		// if 1-ft < a, f(t) turns to a linear function
-		else
+		double ft = k;
+		if(ft == 1- alpha){
 			t_a = t;
-			ft = a/(1-t_a) * t - a/(1-t_a) + 1;
+		}
+		// 1-ft >= a, keep exponential f(t) unchanged
+		if (ft < 1- alpha){
+			ft = k + (1 - k) * Math.pow(t, 1.0 / e);
 			return ft;
+		}else if{
+			ft = alpha /(1-t_a) * t - alpha /(1-t_a) + 1;
+			return ft;
+		}
 	}
 
+	public double f_a(double t_a, double t){
+		return alpha /(1-t_a) * t - alpha /(1-t_a) + 1;
+	}
 	/**
 	 * Makes sure the target utility with in the acceptable range according to
 	 * the domain. Goes from Pmax to Pmin!
@@ -159,6 +143,11 @@ public class Group4_BS extends OfferingStrategy {
 		return Pmin + (Pmax - Pmin) * (1 - f(t));
 	}
 
+	@Override
+	public SharedAgentState getHelper() {
+		return super.getHelper();
+	}
+
 	public NegotiationSession getNegotiationSession() {
 		return negotiationSession;
 	}
@@ -166,11 +155,11 @@ public class Group4_BS extends OfferingStrategy {
 	@Override
 	public Set<BOAparameter> getParameterSpec() {
 		Set<BOAparameter> set = new HashSet<BOAparameter>();
-		set.add(new BOAparameter("e", 1.0, "Concession rate"));
-		set.add(new BOAparameter("k", 0.0, "Offset"));
+		set.add(new BOAparameter("e", 0.2, "Concession rate"));
+		set.add(new BOAparameter("k", 0.2, "Offset"));
 		set.add(new BOAparameter("min", 0.0, "Minimum utility"));
 		set.add(new BOAparameter("max", 0.99, "Maximum utility"));
-		set.add(new BOAparameter("a", 0.0, "turning point of f(t)"));
+		set.add(new BOAparameter("alpha", 0.3, "turning point of f(t)"));
 		// might need to change the default value a little bit
 
 		return set;
