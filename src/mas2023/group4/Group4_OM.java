@@ -1,10 +1,7 @@
 package mas2023.group4;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 
 import genius.core.Bid;
 import genius.core.bidding.BidDetails;
@@ -21,10 +18,13 @@ import genius.core.utility.Evaluator;
 import genius.core.utility.EvaluatorDiscrete;
 
 /**
- * BOA framework implementation of the HardHeaded Frequecy Model.
- * 
- * Default: learning coef l = 0.2; learnValueAddition v = 1.0
- * 
+ * This is an improved implementation based on the Opponent Model of
+ * HardHeaded Frequency Model in the boa framework.
+ *
+ * The original default: learning coef l = 0.2; learnValueAddition v = 1.0.
+ *
+ * New default: roundToUpdate = 4; numberOfRounds = 3.
+ *
  * paper: https://ii.tudelft.nl/sites/default/files/boa.pdf
  */
 public class Group4_OM extends OpponentModel {
@@ -42,16 +42,46 @@ public class Group4_OM extends OpponentModel {
 	private int learnValueAddition;
 	private int amountOfIssues;
 	private double goldenValue;
+	private double roundToUpdate;
+	/*
+	 * roundToUpdate is to consider the opponents' offers from previous rounds
+	 * starting from a certain round.
+	 */
+	private double numberOfRounds;
+	// numberOfRounds is the number of previous rounds to consider.
 
 	@Override
 	public void init(NegotiationSession negotiationSession,
-			Map<String, Double> parameters) {
+					 Map<String, Double> parameters) {
 		this.negotiationSession = negotiationSession;
 		if (parameters != null && parameters.get("l") != null) {
 			learnCoef = parameters.get("l");
 		} else {
 			learnCoef = 0.2;
 		}
+		if (parameters.get("roundToUpdate") != null) {
+			roundToUpdate = parameters.get("roundToUpdate").intValue();
+		} else {
+			roundToUpdate = 4;
+		}
+		/**
+		 * If the parameters contain roundToUpdate, the integer part of
+		 * its corresponding value is assigned to roundToUpdate.
+		 * Otherwise, 4 is assigned to roundToUpdate, which means that the
+		 * opponent's previous bid history will be considered from the fourth
+		 * round onwards.
+		 */
+		if (parameters.get("numberOfRounds") != null) {
+			numberOfRounds = parameters.get("numberOfRounds").intValue();
+		} else {
+			numberOfRounds = 3;
+		}
+		/**
+		 * If the parameters contain numberOfRounds, the integer part of
+		 * its corresponding value is assigned to roundToUpdate.
+		 * Otherwise, 3 is assigned to numberOfRounds, which means that each my bid
+		 * will consider the previous three rounds of the opponent's bid history.
+		 */
 		learnValueAddition = 1;
 		opponentUtilitySpace = (AdditiveUtilitySpace) negotiationSession
 				.getUtilitySpace().copy();
@@ -69,65 +99,115 @@ public class Group4_OM extends OpponentModel {
 
 	@Override
 	public void updateModel(Bid opponentBid, double time) {
-		if (negotiationSession.getOpponentBidHistory().size() < 2) {
+		int historySize = negotiationSession.getOpponentBidHistory().size();
+		//Assign the size of OpponentBidHistory to historySize
+
+		if (historySize < roundToUpdate) {
 			return;
 		}
+		/*
+		 * If historySize < roundToUpdate, then return directly,
+		 * without considering the opponent's bid history.
+		 */
+
 		int numberOfUnchanged = 0;
-		BidDetails oppBid = negotiationSession.getOpponentBidHistory()
-				.getHistory()
-				.get(negotiationSession.getOpponentBidHistory().size() - 1);
-		BidDetails prevOppBid = negotiationSession.getOpponentBidHistory()
-				.getHistory()
-				.get(negotiationSession.getOpponentBidHistory().size() - 2);
-		HashMap<Integer, Integer> lastDiffSet = determineDifference(prevOppBid,
-				oppBid);
+		ArrayList<HashMap<Integer, Integer>> diffs = new ArrayList<>();
 
-		// count the number of changes in value
-		for (Integer i : lastDiffSet.keySet()) {
-			if (lastDiffSet.get(i) == 0)
-				numberOfUnchanged++;
-		}
+		for (int i = 1; i <= numberOfRounds - 1; i++) {
 
-		// The total sum of weights before normalization.
-		double totalSum = 1D + goldenValue * numberOfUnchanged;
-		// The maximum possible weight
-		double maximumWeight = 1D - (amountOfIssues) * goldenValue / totalSum;
+			int previousRoundIndex = historySize - 1 ;
+			//  previousRoundIndex is the opponent's last offer round
+			int prevPreviousRoundIndex = historySize - 1 - i;
+			// prePreviousRoundIndex is the opponent's previous last offer round
 
-		// re-weighing issues while making sure that the sum remains 1
-		for (Integer i : lastDiffSet.keySet()) {
-			Objective issue = opponentUtilitySpace.getDomain()
-					.getObjectivesRoot().getObjective(i);
-			double weight = opponentUtilitySpace.getWeight(i);
-			double newWeight;
-
-			if (lastDiffSet.get(i) == 0 && weight < maximumWeight) {
-				newWeight = (weight + goldenValue) / totalSum;
-			} else {
-				newWeight = weight / totalSum;
+			if (prevPreviousRoundIndex <= 0) {
+				break;
 			}
-			opponentUtilitySpace.setWeight(issue, newWeight);
+			/*
+			 * Cycle through every two similar rounds and ensure that round 0
+			 * and negative rounds are not indexed.
+			 */
+
+			BidDetails previousOppBid = negotiationSession.getOpponentBidHistory()
+					.getHistory()
+					.get(previousRoundIndex);
+			/*
+			 * Get the previous round's bid from the opponent's bid history
+			 * and assign it to previousOppBid.
+			 */
+			BidDetails prevPreviousOppBid = negotiationSession.getOpponentBidHistory()
+					.getHistory()
+					.get(prevPreviousRoundIndex);
+			/*
+			 * Get the previous previous round's bid from the opponent's bid history
+			 * and assign it to prevPreviousOppBid.
+			 */
+			HashMap<Integer, Integer> lastDiffSet = determineDifference(prevPreviousOppBid, previousOppBid);
+			diffs.add(lastDiffSet);
+			/*
+			 * Call the determineDifference method to calculate the difference between
+			 * the previous previous round and the previous bid and assign it to lastDiffSet.
+			 */
 		}
 
-		// Then for each issue value that has been offered last time, a constant
-		// value is added to its corresponding ValueDiscrete.
+		for (HashMap<Integer, Integer> diff : diffs) {
+			for (Integer i : diff.keySet()) {
+				if (diff.get(i) == 0) {
+					numberOfUnchanged++;
+				}
+			}
+		}
+		/*
+		 * loop comparison, if diff is 0, it means no change in the previous two offers,
+		 * so numberOfUnchanged + 1
+		 */
+
+		double totalSum = 1D + goldenValue * numberOfUnchanged;
+		for (HashMap<Integer, Integer> diff : diffs) {
+			for (Entry<Integer, Integer> e : diff.entrySet()) {
+				try {
+					int issueNum = e.getKey();
+					double weight = opponentUtilitySpace.getWeight(issueNum);
+					double newWeight = (weight + goldenValue * e.getValue())
+							/ totalSum;
+					Objective issue = opponentUtilitySpace.getDomain()
+							.getObjectivesRoot().getObjective(issueNum);
+					opponentUtilitySpace.setWeight(issue, newWeight);
+					opponentUtilitySpace.normalizeWeights();
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}
+
 		try {
-			for (Entry<Objective, Evaluator> e : opponentUtilitySpace
-					.getEvaluators()) {
-				EvaluatorDiscrete value = (EvaluatorDiscrete) e.getValue();
-				IssueDiscrete issue = ((IssueDiscrete) e.getKey());
-				/*
-				 * add constant learnValueAddition to the current preference of
-				 * the value to make it more important
-				 */
-				ValueDiscrete issuevalue = (ValueDiscrete) oppBid.getBid()
-						.getValue(issue.getNumber());
-				Integer eval = value.getEvaluationNotNormalized(issuevalue);
-				value.setEvaluation(issuevalue, (learnValueAddition + eval));
+			for (Issue issue : opponentUtilitySpace.getDomain().getIssues()) {
+				int issueNumber = issue.getNumber();
+				IssueDiscrete issueDiscrete = (IssueDiscrete) issue;
+				EvaluatorDiscrete evaluator = (EvaluatorDiscrete) opponentUtilitySpace
+						.getEvaluator(issueNumber);
+
+				for (ValueDiscrete value : issueDiscrete.getValues()) {
+					int lastNumberOfRealBidsWithValue = 0;
+					for (int i = 0; i < numberOfRounds - 1; i++) {
+						BidDetails oppBid = negotiationSession.getOpponentBidHistory()
+								.getHistory()
+								.get(negotiationSession.getOpponentBidHistory().size() - 1 - i);
+						if (oppBid.getBid().getValue(issueNumber).equals(value)) {
+							lastNumberOfRealBidsWithValue++;
+						}
+					}
+
+					int newEvaluation = (int) (evaluator.getEvaluation(value)
+							+ learnValueAddition * lastNumberOfRealBidsWithValue);
+					evaluator.setEvaluation(value, newEvaluation);
+				}
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
+
 
 	@Override
 	public double getBidEvaluation(Bid bid) {
@@ -146,10 +226,20 @@ public class Group4_OM extends OpponentModel {
 	}
 
 	@Override
+
+	/**
+	 * If roundToUpdate = 3.0 and numberOfRounds = 2.0, the Opponent Model of our group
+	 * will equal to that of HardHeaded Frequency Model.
+	 * But the advantage of our Opponent Model is that it can be adapted at any time.
+	 */
 	public Set<BOAparameter> getParameterSpec() {
 		Set<BOAparameter> set = new HashSet<BOAparameter>();
 		set.add(new BOAparameter("l", 0.2,
 				"The learning coefficient determines how quickly the issue weights are learned"));
+		set.add(new BOAparameter("roundToUpdate", 4.0,
+				"Round number to start updating based on a number of rounds"));
+		set.add(new BOAparameter("numberOfRounds", 3.0,
+				"Number of rounds to update based on"));
 		return set;
 	}
 
@@ -180,15 +270,15 @@ public class Group4_OM extends OpponentModel {
 	 * Determines the difference between bids. For each issue, it is determined
 	 * if the value changed. If this is the case, a 1 is stored in a hashmap for
 	 * that issue, else a 0.
-	 * 
-//	 * @param a
+	 *
+	 //	 * @param a
 	 *            bid of the opponent
-//	 * @param another
+	 //	 * @param another
 	 *            bid
 	 * @return
 	 */
 	private HashMap<Integer, Integer> determineDifference(BidDetails first,
-			BidDetails second) {
+														  BidDetails second) {
 
 		HashMap<Integer, Integer> diff = new HashMap<Integer, Integer>();
 		try {
